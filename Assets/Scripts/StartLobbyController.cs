@@ -4,27 +4,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuickStartLobbyController : MonoBehaviourPunCallbacks
+public class StartLobbyController : MonoBehaviourPunCallbacks
 {
     [SerializeField]
-    private GameObject quickStartButton;
+    private GameObject startButton;
     [SerializeField]
-    private GameObject quickCancelButton;
+    private GameObject cancelButton;
     [SerializeField]
     private int roomSize;
 
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        quickStartButton.SetActive(true);
+        startButton.SetActive(true);
     }
 
-    public void QuickStart()
+    public void DelayStart()
     {
-        quickStartButton.SetActive(false);
-        quickCancelButton.SetActive(true);
+        startButton.SetActive(false);
+        cancelButton.SetActive(true);
         PhotonNetwork.JoinRandomRoom();
-        Debug.Log("Quick Start");
+        Debug.Log("Delay Start");
 
     }
 
@@ -32,7 +32,7 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
     {
         Debug.Log("Failed to find a room");
         CreateRoom();
-  
+
     }
 
     void CreateRoom()
@@ -50,10 +50,10 @@ public class QuickStartLobbyController : MonoBehaviourPunCallbacks
         CreateRoom();
     }
 
-    public void QuickCancel()
+    public void Cancel()
     {
-        quickCancelButton.SetActive(false);
-        quickStartButton.SetActive(true);
+        cancelButton.SetActive(false);
+        startButton.SetActive(true);
         PhotonNetwork.LeaveRoom();
     }
 

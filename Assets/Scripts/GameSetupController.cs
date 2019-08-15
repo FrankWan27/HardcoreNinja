@@ -6,15 +6,18 @@ using UnityEngine;
 
 public class GameSetupController : MonoBehaviour
 {
+
+    public Transform[] spawnPoints;
     // Start is called before the first frame update
     void Start()
     {
-        CreatePlayer();
+        Transform spawnLoc = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        CreatePlayer(spawnLoc);
     }
 
-    private void CreatePlayer()
+    private void CreatePlayer(Transform spawnLoc)
     {
         Debug.Log("Creating Player");
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayer"), Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PhotonPlayer"), spawnLoc.position, spawnLoc.rotation);
     }
 }

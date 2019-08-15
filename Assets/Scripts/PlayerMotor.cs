@@ -58,4 +58,9 @@ public class PlayerMotor : MonoBehaviour
             cam.transform.Rotate(-cameraRotation);
         }
     }
+
+    public void TurnOffCam()
+    {
+        cam.enabled = false;
+    }
 }

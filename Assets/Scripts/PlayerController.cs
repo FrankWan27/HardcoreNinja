@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,17 +13,23 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float lookSensitivityY = 3f;
     private PlayerMotor motor;
+    private PhotonView PV;
 
     private void Start()
     {
+        PV = GetComponent<PhotonView>();
         motor = GetComponent<PlayerMotor>();
+        if(!PV.IsMine)
+            motor.TurnOffCam();
     }
 
     private void Update()
     {
+        if (!PV.IsMine)
+            return;
+
         if (Cursor.lockState != CursorLockMode.Locked)
             Cursor.lockState = CursorLockMode.Locked;
-
 
 
         //Calculate movement as a 3D vector

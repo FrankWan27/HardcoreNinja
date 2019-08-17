@@ -14,11 +14,17 @@ public class PlayerController : MonoBehaviour
     private float lookSensitivityY = 3f;
     private PlayerMotor motor;
     private PhotonView PV;
+    private PlayerSkills skills;
+
+    [SerializeField]
+    private ParticleSystem PS;
 
     private void Start()
     {
         PV = GetComponent<PhotonView>();
         motor = GetComponent<PlayerMotor>();
+        skills = GetComponent<PlayerSkills>();
+        PS.Stop();
         if(!PV.IsMine)
             motor.TurnOffCam();
     }
@@ -57,5 +63,28 @@ public class PlayerController : MonoBehaviour
         Vector3 cameraRotation = new Vector3(xRot, 0f, 0f) * lookSensitivityY;
 
         motor.RotateCamera(cameraRotation);
+
+        if(Input.GetKey(KeyCode.E))
+        {
+            Dash();
+        }
+    }
+
+    private void Dash()
+    {
+        //check if skill on CD
+        if (!skills.CheckSkillCD("dash"))
+            return;
+        float forwardDistance = 10;
+        PS.Play();
+        //teleport player forward (check for collision?)
+        Vector3 newLocation = transform.position + transform.forward * forwardDistance;
+        transform.position = newLocation;
+
+        //catch up camera and particle system (don't teleport)
+
+
+
+
     }
 }

@@ -18,12 +18,17 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem PS;
+    [SerializeField]
+    private Camera camera;
+    CameraFollow cf;
 
     private void Start()
     {
         PV = GetComponent<PhotonView>();
         motor = GetComponent<PlayerMotor>();
         skills = GetComponent<PlayerSkills>();
+        cf = camera.GetComponent<CameraFollow>();
+
         PS.Stop();
         if(!PV.IsMine)
             motor.TurnOffCam();
@@ -76,15 +81,23 @@ public class PlayerController : MonoBehaviour
         if (!skills.CheckSkillCD("dash"))
             return;
         float forwardDistance = 10;
+
         PS.Play();
+        cf.smoothSpeed = 0.1f;
+
+        Invoke("ResetThings", 0.2f);
         //teleport player forward (check for collision?)
         Vector3 newLocation = transform.position + transform.forward * forwardDistance;
         transform.position = newLocation;
 
+
+
         //catch up camera and particle system (don't teleport)
+    }
 
-
-
-
+    private void ResetThings()
+    {
+        cf.smoothSpeed = 1f;
+        PS.Stop();
     }
 }

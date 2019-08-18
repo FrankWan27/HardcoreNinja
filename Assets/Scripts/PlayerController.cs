@@ -8,10 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private float speed = 5f;
-    [SerializeField]
-    private float lookSensitivityX = 3f;
-    [SerializeField]
-    private float lookSensitivityY = 3f;
+
     private PlayerMotor motor;
     private PhotonView PV;
     private PlayerSkills skills;
@@ -19,15 +16,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private ParticleSystem PS;
     [SerializeField]
-    private Camera camera;
-    CameraFollow cf;
+    private Transform target;
+    PlayerFollow pf;
 
     private void Start()
     {
         PV = GetComponent<PhotonView>();
         motor = GetComponent<PlayerMotor>();
         skills = GetComponent<PlayerSkills>();
-        cf = camera.GetComponent<CameraFollow>();
+        pf = target.GetComponent<PlayerFollow>();
 
         PS.Stop();
         if(!PV.IsMine)
@@ -55,20 +52,6 @@ public class PlayerController : MonoBehaviour
 
         motor.Move(velocity);
 
-        //Calculate rotation
-        float yRot = Input.GetAxisRaw("Mouse X");
-
-        Vector3 rotation = new Vector3(0f, yRot, 0f) * lookSensitivityX;
-
-        motor.Rotate(rotation);
-
-        //Calculate camera rotation
-        float xRot = Input.GetAxisRaw("Mouse Y");
-
-        Vector3 cameraRotation = new Vector3(xRot, 0f, 0f) * lookSensitivityY;
-
-        motor.RotateCamera(cameraRotation);
-
         if(Input.GetKey(KeyCode.E))
         {
             Dash();
@@ -82,8 +65,10 @@ public class PlayerController : MonoBehaviour
             return;
         float forwardDistance = 10;
 
+        //catch up camera and particle system (don't teleport)
         PS.Play();
-        cf.smoothSpeed = 0.1f;
+        PS.GetComponent<PlayerFollow>().smoothSpeed = 0.2f;
+        pf.smoothSpeed = 0.2f;
 
         Invoke("ResetThings", 0.2f);
         //teleport player forward (check for collision?)
@@ -92,12 +77,12 @@ public class PlayerController : MonoBehaviour
 
 
 
-        //catch up camera and particle system (don't teleport)
     }
 
     private void ResetThings()
     {
-        cf.smoothSpeed = 1f;
+        PS.GetComponent<PlayerFollow>().smoothSpeed = 2f;
+        pf.smoothSpeed = 2f;
         PS.Stop();
     }
 }

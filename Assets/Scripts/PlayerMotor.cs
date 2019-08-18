@@ -12,8 +12,6 @@ public class PlayerMotor : MonoBehaviour
 
 
     private Vector3 velocity = Vector3.zero;
-    private Vector3 rotation = Vector3.zero;
-    private Vector3 cameraRotation = Vector3.zero;
 
     private Rigidbody rb;
 
@@ -27,20 +25,9 @@ public class PlayerMotor : MonoBehaviour
         velocity = vel;
     }
 
-    public void Rotate(Vector3 rot)
-    {
-        rotation = rot;
-    }
-
-    public void RotateCamera(Vector3 rot)
-    {
-        cameraRotation = rot;
-    }
-
     private void FixedUpdate()
     {
         PerformMovement();
-        PerformRotation();
     }
 
     void PerformMovement()
@@ -48,17 +35,6 @@ public class PlayerMotor : MonoBehaviour
         if (velocity != Vector3.zero)
         {
             rb.MovePosition(rb.position + velocity * Time.fixedDeltaTime);
-        }
-    }
-
-    void PerformRotation()
-    {
-
-        rb.MoveRotation(rb.rotation * Quaternion.Euler(rotation));
-        
-        if (cam != null)
-        {
-            cam.transform.Rotate(-cameraRotation);
         }
     }
 

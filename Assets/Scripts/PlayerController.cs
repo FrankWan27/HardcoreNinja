@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
         skills = GetComponent<PlayerSkills>();
         pf = target.GetComponent<PlayerFollow>();
 
-        PS.Stop();
+        //PS.Stop();
         if(!PV.IsMine)
             motor.TurnOffCam();
     }
@@ -66,23 +66,12 @@ public class PlayerController : MonoBehaviour
         float forwardDistance = 10;
 
         //catch up camera and particle system (don't teleport)
-        PS.Play();
-        PS.GetComponent<PlayerFollow>().smoothSpeed = 0.2f;
-        pf.smoothSpeed = 0.2f;
 
-        Invoke("ResetThings", 0.2f);
         //teleport player forward (check for collision?)
         Vector3 newLocation = transform.position + transform.forward * forwardDistance;
         transform.position = newLocation;
 
 
 
-    }
-
-    private void ResetThings()
-    {
-        PS.GetComponent<PlayerFollow>().smoothSpeed = 2f;
-        pf.smoothSpeed = 2f;
-        PS.Stop();
     }
 }

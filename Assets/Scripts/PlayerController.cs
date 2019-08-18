@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
         skills = GetComponent<PlayerSkills>();
         pf = target.GetComponent<PlayerFollow>();
 
-        //PS.Stop();
+        PS.Stop();
         if(!PV.IsMine)
             motor.TurnOffCam();
     }

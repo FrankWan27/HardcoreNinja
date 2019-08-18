@@ -38,10 +38,16 @@ public class CameraFollow : MonoBehaviour
 
         transform.LookAt(target);
 
-        target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
+        if (Input.GetKey(KeyCode.LeftAlt))
+        {
+            target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
 
-        player.rotation = Quaternion.Euler(0, mouseX, 0);
-
+        }
+        else
+        {
+            target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
+            player.rotation = Quaternion.Euler(0, mouseX, 0);
+        }
 
 
     }

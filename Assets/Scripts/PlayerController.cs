@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerMotor))]
@@ -56,6 +57,11 @@ public class PlayerController : MonoBehaviour
         {
             Dash();
         }
+        if(Input.GetMouseButtonDown(1))
+        {
+            Sunder();
+        }
+
     }
 
     private void Dash()
@@ -70,8 +76,27 @@ public class PlayerController : MonoBehaviour
         //teleport player forward (check for collision?)
         Vector3 newLocation = transform.position + transform.forward * forwardDistance;
         transform.position = newLocation;
+    }
 
+    private void Sunder()
+    {
+        //check if skill on CD
+        if (!skills.CheckSkillCD("sunder"))
+            return;
 
+        PV.RPC("SunderRPC", Photon.Pun.RpcTarget.All, new object[] { transform.position, transform.rotation});
 
+    }
+
+    [PunRPC]
+    public void SunderRPC( Vector3 position, Quaternion rotation)
+    {
+        CreateSunder(position, rotation);
+    }
+
+    public void CreateSunder(Vector3 position, Quaternion rotation)
+    {
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Sunder"), position, rotation);
+        //GameObject newSunderObject = (GameObject)Instantiate(Resources.Load)
     }
 }

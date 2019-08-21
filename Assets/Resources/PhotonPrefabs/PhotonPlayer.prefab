@@ -395,6 +395,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashBaseCD: 4
   dashCD: 0
+  sunderBaseCD: 4
+  sunderCD: 0
 --- !u!1 &9026308565550194912
 GameObject:
   m_ObjectHideFlags: 0

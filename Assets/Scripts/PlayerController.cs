@@ -84,19 +84,26 @@ public class PlayerController : MonoBehaviour
         if (!skills.CheckSkillCD("sunder"))
             return;
 
-        PV.RPC("SunderRPC", Photon.Pun.RpcTarget.All, new object[] { transform.position, transform.rotation});
+       PV.RPC("SunderRPC", Photon.Pun.RpcTarget.All, new object[] { transform.position, transform.rotation, gameObject.GetInstanceID()});  
 
-    }
+       //CreateSunder(transform.position, transform.rotation);
+    } 
 
     [PunRPC]
-    public void SunderRPC( Vector3 position, Quaternion rotation)
+    public void SunderRPC( Vector3 position, Quaternion rotation, int creatorID)
     {
-        CreateSunder(position, rotation);
+        GameObject newSunderObject = Instantiate((GameObject)Resources.Load("PhotonPrefabs/Sunder"), position + transform.forward, rotation);
+        newSunderObject.GetComponent<SunderController>().creatorID = gameObject.GetInstanceID();
     }
 
     public void CreateSunder(Vector3 position, Quaternion rotation)
     {
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Sunder"), position, rotation);
+        GameObject newSunderObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Sunder"), position + transform.forward, rotation);
+        newSunderObject.GetComponent<SunderController>().creatorID = gameObject.GetInstanceID();
+
         //GameObject newSunderObject = (GameObject)Instantiate(Resources.Load)
     }
+
+
+
 }

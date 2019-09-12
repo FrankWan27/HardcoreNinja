@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerSkills : MonoBehaviour
 {
@@ -13,6 +14,14 @@ public class PlayerSkills : MonoBehaviour
     [SerializeField]
     float sunderCD = 0;
 
+    public Image dashCDImg;
+    public Image sunderCDImg;
+
+    public void Start()
+    {
+        dashCDImg = GameObject.Find("Skill E/Cooldown").GetComponent<Image>();
+        sunderCDImg = GameObject.Find("Skill RMB/Cooldown").GetComponent<Image>();
+    }
 
     public bool CheckSkillCD(string skill)
     {
@@ -41,12 +50,13 @@ public class PlayerSkills : MonoBehaviour
     {
         if (dashCD > 0)
         {
+            dashCDImg.fillAmount = dashCD / dashBaseCD;
             dashCD -= Time.deltaTime;
-
         }
 
         if (sunderCD > 0)
         {
+            sunderCDImg.fillAmount = sunderCD / sunderBaseCD;
             sunderCD -= Time.deltaTime;
         }
     }

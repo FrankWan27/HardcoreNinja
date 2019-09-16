@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour
         {
             Sunder();
         }
+        
 
     }
 
@@ -104,6 +105,37 @@ public class PlayerController : MonoBehaviour
         //GameObject newSunderObject = (GameObject)Instantiate(Resources.Load)
     }
 
+    public void Die()
+    {
+        GameObject.Find("Scoreboard").GetComponent<ScoreController>().IncScore(PV.Owner);
 
+        PV.RPC("AddScoreRPC", Photon.Pun.RpcTarget.All, 1);
+        StartCoroutine(Respawn());
+    }
 
+    IEnumerator Respawn()
+    {
+        PV.RPC("ExplodeRPC", Photon.Pun.RpcTarget.All);
+        yield return new WaitForSeconds(3f);
+        PV.RPC("RespawnRPC", Photon.Pun.RpcTarget.All);
+    }
+
+    [PunRPC]
+    void ExplodeRPC()
+    {
+        //transform.GetChild(0).gameObject.SetActive(false);
+        Debug.Log("Blow up");
+    }
+
+    [PunRPC]
+    void RespawnRPC()
+    {
+        Debug.Log("Respawn");
+    }
+
+    [PunRPC]
+    void AddScoreRPC(int amount)
+    {
+         
+    }
 }

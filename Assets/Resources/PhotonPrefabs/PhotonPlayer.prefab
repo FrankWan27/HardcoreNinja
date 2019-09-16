@@ -399,6 +399,8 @@ MonoBehaviour:
   sunderCD: 0
   dashCDImg: {fileID: 0}
   sunderCDImg: {fileID: 0}
+  dashCDNum: {fileID: 0}
+  sunderCDNum: {fileID: 0}
 --- !u!1 &11
 GameObject:
   m_ObjectHideFlags: 0

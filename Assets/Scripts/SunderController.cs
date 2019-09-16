@@ -37,8 +37,10 @@ public class SunderController : MonoBehaviour
 
             if (collision.collider.gameObject.GetInstanceID() != creatorID)
             {
-                collision.collider.gameObject.SetActive(false);
+                //collision.collider.gameObject.SetActive(false);
+                collision.collider.gameObject.GetComponent<PlayerController>().Die();
                 Destroy(gameObject);
+
             }
         }
         else if(collision.collider.tag != "Floor")

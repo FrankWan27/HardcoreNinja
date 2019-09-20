@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
-        GameObject.Find("Scoreboard").GetComponent<ScoreController>().IncScore(PV.Owner);
+        GameObject.Find("Scoreboard").GetComponent<ScoreController>().IncScore(PV.ViewID);
 
         PV.RPC("AddScoreRPC", Photon.Pun.RpcTarget.All, 1);
         StartCoroutine(Respawn());

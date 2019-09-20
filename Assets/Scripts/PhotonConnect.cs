@@ -16,6 +16,7 @@ public class PhotonConnect : MonoBehaviourPunCallbacks
 
     public void Start()
     {
+        Application.targetFrameRate = 60;
         connectToPhoton();
     }
 

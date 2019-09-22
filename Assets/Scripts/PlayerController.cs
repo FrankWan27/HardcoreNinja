@@ -108,8 +108,6 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         GameObject.Find("Scoreboard").GetComponent<ScoreController>().IncScore(PV.ViewID);
-
-        PV.RPC("AddScoreRPC", Photon.Pun.RpcTarget.All, 1);
         StartCoroutine(Respawn());
     }
 
@@ -123,19 +121,12 @@ public class PlayerController : MonoBehaviour
     [PunRPC]
     void ExplodeRPC()
     {
-        //transform.GetChild(0).gameObject.SetActive(false);
-        Debug.Log("Blow up");
+        transform.localScale = new Vector3(0, 0, 0);
     }
 
     [PunRPC]
     void RespawnRPC()
     {
-        Debug.Log("Respawn");
-    }
-
-    [PunRPC]
-    void AddScoreRPC(int amount)
-    {
-         
+        transform.localScale = new Vector3(1, 1, 1);
     }
 }
